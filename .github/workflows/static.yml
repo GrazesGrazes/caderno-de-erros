@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ec4899">
+<title>Caderno de Erros | Grazielly Brito</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--rosa:#ec4899;--rosa2:#fbcfe8;--lilas:#a78bfa;--lilas2:#ede9fe;--bg:#fdf4ff;--txt:#3b0a45;--mut:#7c6a86;--card:#fff;
+--alta:#ef4444;--media:#eab308;--sup:#22c55e;--r:18px;--sh:0 4px 18px rgba(167,139,250,.18)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;background:linear-gradient(160deg,#fff 0%,var(--bg) 40%,#f5f3ff 100%);color:var(--txt);min-height:100vh}
+button{font-family:inherit;cursor:pointer;border:none}
+input,select,textarea{font-family:inherit;font-size:15px;width:100%;padding:11px 13px;border:1.5px solid #e9d5ff;border-radius:12px;background:#fff;color:var(--txt);outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--rosa);box-shadow:0 0 0 3px var(--rosa2)}
+textarea{min-height:80px;resize:vertical}
+label{font-weight:600;font-size:14px;display:block;margin-bottom:6px}
+.app{display:flex;min-height:100vh}
+aside{width:250px;background:#fff;box-shadow:var(--sh);padding:22px 14px;position:fixed;height:100vh;overflow:auto;z-index:20}
+.logo{font-weight:800;font-size:18px;background:linear-gradient(90deg,var(--rosa),var(--lilas));-webkit-background-clip:text;color:transparent;margin:0 8px 22px}
+nav a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;color:var(--mut);text-decoration:none;font-weight:600;margin-bottom:4px;transition:.2s}
+nav a:hover{background:var(--lilas2);color:var(--txt)}
+nav a.on{background:linear-gradient(90deg,var(--rosa),var(--lilas));color:#fff;box-shadow:0 4px 14px rgba(236,72,153,.35)}
+nav a span{font-size:19px}
+main{margin-left:250px;flex:1;padding:24px 30px 90px;max-width:1300px;width:100%}
+header.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.sync{font-size:13px;background:#fff;padding:8px 14px;border-radius:999px;box-shadow:var(--sh);color:var(--mut)}
+.sync b{color:var(--sup)}
+.hero{display:flex;align-items:center;gap:24px;background:linear-gradient(120deg,#fce7f3,#ede9fe);border-radius:26px;padding:26px 30px;box-shadow:var(--sh);margin-bottom:22px;overflow:hidden;position:relative}
+.hero h1{font-size:34px;letter-spacing:2px;font-weight:900;background:linear-gradient(90deg,var(--rosa),#8b5cf6);-webkit-background-clip:text;color:transparent}
+.hero p{color:var(--mut);margin:6px 0 10px}
+.hero .nome{display:inline-block;background:#fff;padding:6px 16px;border-radius:999px;font-weight:800;color:var(--rosa);box-shadow:var(--sh)}
+.hero svg{flex-shrink:0;width:170px;height:190px}
+.btn{padding:12px 20px;border-radius:14px;font-weight:700;font-size:15px;transition:.2s;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn:hover{transform:translateY(-2px)}
+.bp{background:linear-gradient(90deg,var(--rosa),var(--lilas));color:#fff;box-shadow:0 4px 14px rgba(236,72,153,.35)}
+.bs{background:var(--lilas2);color:#6d28d9}
+.bd{background:#fee2e2;color:#b91c1c}
+.bg{background:#dcfce7;color:#15803d}
+.sm{padding:7px 12px;font-size:13px;border-radius:10px}
+.big{font-size:17px;padding:16px 26px;letter-spacing:.5px}
+.grid{display:grid;gap:16px}
+.g6{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.card{background:var(--card);border-radius:var(--r);padding:20px;box-shadow:var(--sh);animation:up .35s ease}
+.card h3{font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.stat{text-align:left}
+.stat .ic{font-size:24px}
+.stat .v{font-size:30px;font-weight:800;margin:4px 0}
+.stat .l{font-size:13px;color:var(--mut);font-weight:600}
+.msg{background:linear-gradient(120deg,var(--rosa),#8b5cf6);color:#fff;border-radius:22px;padding:24px 28px;margin:0 0 22px;box-shadow:0 8px 24px rgba(139,92,246,.3);font-size:19px;font-weight:600;font-style:italic;position:relative}
+.msg small{display:block;font-style:normal;opacity:.85;font-size:12px;letter-spacing:1px;margin-bottom:6px}
+.sec{margin:22px 0 14px;font-size:22px;font-weight:800}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.item{border:1.5px solid #f3e8ff;border-radius:14px;padding:14px;margin-bottom:10px;background:#fff;transition:.2s}
+.item:hover{border-color:var(--rosa2);box-shadow:var(--sh)}
+.item .hd{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--mut);margin-bottom:6px}
+.item .ds{font-weight:600;margin:6px 0 10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.qs{width:auto;padding:6px 10px;font-size:13px;border-radius:10px}
+.bar{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:13px}
+.bar .lb{width:130px;flex-shrink:0;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .tr{flex:1;background:#f5f3ff;border-radius:999px;height:14px;overflow:hidden;display:flex}
+.bar .fl{height:100%;transition:width .6s}
+.bar .n{width:60px;text-align:right;font-weight:700}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.opt{border:2px solid #f3e8ff;border-radius:14px;padding:12px;cursor:pointer;transition:.2s;background:#fff}
+.opt input{display:none}
+.opt b{display:block;margin-bottom:3px}
+.opt small{color:var(--mut);font-size:12px}
+.opt.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,#fff);transform:scale(1.02)}
+.f{margin-bottom:16px}
+.req{color:var(--rosa)}
+.layout2{display:grid;grid-template-columns:270px 1fr;gap:16px}
+.tree div{cursor:pointer;padding:7px 10px;border-radius:10px;font-size:14px;display:flex;justify-content:space-between}
+.tree div:hover{background:var(--lilas2)}
+.tree .m{font-weight:800}.tree .t{padding-left:22px}.tree .s{padding-left:40px;color:var(--mut)}
+.tree .on{background:var(--rosa2)}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.empty{text-align:center;padding:34px 14px;color:var(--mut)}
+.empty div{font-size:42px;margin-bottom:8px}
+.modal-bg{position:fixed;inset:0;background:rgba(59,10,69,.35);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;z-index:50;padding:14px;animation:fade .2s}
+.modal{background:#fff;border-radius:22px;padding:24px;max-width:640px;width:100%;max-height:90vh;overflow:auto;animation:up .25s}
+.modal h2{margin-bottom:14px}
+.blk{background:#faf5ff;border-radius:12px;padding:12px;margin-bottom:10px;white-space:pre-wrap}
+.blk b{display:block;font-size:12px;color:var(--mut);margin-bottom:4px;letter-spacing:.5px}
+.hidden-c{filter:blur(7px);user-select:none}
+#toasts{position:fixed;top:16px;right:16px;z-index:99;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 18px;border-radius:12px;color:#fff;font-weight:600;box-shadow:var(--sh);animation:up .3s}
+.prog{height:18px;background:#f5f3ff;border-radius:999px;overflow:hidden}
+.prog div{height:100%;background:linear-gradient(90deg,var(--lilas),var(--sup));transition:width .8s;border-radius:999px}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}}
+@media(max-width:900px){
+ aside{width:100%;height:auto;bottom:0;top:auto;padding:6px;display:flex}
+ .logo{display:none}
+ nav{display:flex;width:100%;justify-content:space-around}
+ nav a{flex-direction:column;gap:2px;font-size:10px;padding:7px 4px;margin:0;text-align:center}
+ nav a .tx{max-width:62px;line-height:1.1}
+ main{margin-left:0;padding:16px 14px 100px}
+ .hero{flex-direction:column-reverse;text-align:center;padding:20px}
+ .hero h1{font-size:26px}
+ .layout2{grid-template-columns:1fr}
+ .g2{grid-template-columns:1fr}
+ .bar .lb{width:95px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+ <aside><div class="logo">📒 Caderno de Erros</div><nav id="nav"></nav></aside>
+ <main>
+  <header class="top"><div style="font-weight:700;color:var(--mut)" id="pgTitle"></div><div class="sync" id="sync"></div></header>
+  <div id="view"></div>
+ </main>
+</div>
+<div id="toasts"></div>
+<div id="modalRoot"></div>
+
+<script>
+/* ===================== CONSTANTES ===================== */
+const KEY='caderno_erros_gb_v1', MSGKEY='caderno_erros_gb_lastmsg';
+const PRI={alta:{n:'Prioridade alta',i:'🔴',c:'#ef4444',d:'Erros persistentes, conceitos que ainda não domino ou questões que continuo errando mesmo depois de estudar.'},
+ media:{n:'Prioridade média',i:'🟡',c:'#eab308',d:'Erros que já compreendi, mas merecem atenção para não se repetirem.'},
+ superado:{n:'Superado',i:'🟢',c:'#22c55e',d:'Erros que já corrigi, compreendi e demonstrei domínio com novas questões.'}};
+const ORI={desconhecimento:{n:'Desconhecimento',i:'❓',c:'#6366f1',d:'Nunca havia estudado o conceito, termo ou conteúdo.'},
+ confusao:{n:'Confusão entre conceitos',i:'🔀',c:'#f97316',d:'Conhecia os conceitos, mas confundi um com o outro.'},
+ esquecimento:{n:'Esquecimento',i:'🧠',c:'#0ea5e9',d:'Já havia estudado, mas não lembrei no momento da questão.'},
+ interpretacao:{n:'Erro de interpretação',i:'📖',c:'#a855f7',d:'Conhecia o conteúdo, mas interpretei mal o enunciado ou as alternativas.'}};
+const NC={n:'Não classificado',i:'⚪',c:'#9ca3af'};
+const PAGES=[['dashboard','🏠','Dashboard'],['registrar','➕','Registrar erro'],['erros','📚','Meus erros'],['ciclo','🔁','Segundo ciclo'],['evolucao','📈','Minha evolução'],['materias','🗂️','Matérias e tópicos'],['backup','⚙️','Backup e configurações']];
+const MSGS=["Cada erro corrigido é um passo a mais em direção à aprovação.","Você não precisa ser perfeita hoje. Precisa ser melhor do que ontem.","Quem aprende com os próprios erros chega mais preparada à prova.","A aprovação é construída nos dias em que você decide não desistir.","Não tenha medo de errar nas questões. Tenha compromisso em não repetir os mesmos erros.","Seu concorrente pode estudar mais questões. Mas você pode aprender mais com cada uma delas.","Disciplina é continuar mesmo quando a motivação não aparece.","Constância vence intensidade. Um pouco todo dia leva longe.","O erro de hoje é o acerto garantido do dia da prova.","Sua aprovação está sendo escrita, uma revisão de cada vez.","Errar no treino é um privilégio: na prova, você já saberá.","Grandes aprovações nascem de pequenos hábitos repetidos.","Não é sobre não errar. É sobre nunca errar a mesma coisa duas vezes.","Cada questão errada revela exatamente onde você vai crescer.","Persistência transforma dificuldade em domínio.","Quem revisa os erros estuda com inteligência, não só com esforço.","O cansaço passa. A aprovação fica.","Hoje é mais um dia para ficar um pouco mais perto da sua vaga.","Você já superou erros antes. Vai superar estes também.","A evolução diária é silenciosa, mas o resultado é barulhento.","Foco no processo: o resultado é consequência.","Sua dedicação de hoje é o orgulho do seu futuro.","Errar é parte do caminho; desistir não é opção.","Cada 'superado' no seu caderno é uma vitória real.","Os aprovados também erraram. Só não pararam.","Transforme cada erro em um macete que ninguém mais tem.","Disciplina é a ponte entre seus objetivos e suas conquistas.","Um dia de estudo bem feito vale mais que uma semana de promessas.","A dúvida de hoje é a certeza da prova.","Você está construindo uma versão de si que passa na prova.","Mantenha o ritmo. A linha de chegada se aproxima a cada revisão.","Acredite no processo: o conhecimento se acumula, mesmo quando você não percebe.","Persistir é o talento de quem é aprovado."];
+
+/* ===================== ESTADO ===================== */
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const nowISO=()=>new Date().toISOString();
+const fmt=d=>{if(!d)return'—';const x=new Date(d);return isNaN(x)?'—':x.toLocaleDateString('pt-BR')};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+
+function normErro(e){
+ if(!e||typeof e!=='object')return null;
+ const desc=String(e.descricao||'').trim(), mat=String(e.materia||'').trim();
+ if(!desc||!mat)return null;
+ return{id:String(e.id||uid()),materia:mat,topico:String(e.topico||'').trim()||'Geral',subtopico:String(e.subtopico||'').trim(),
+  descricao:desc,correcao:String(e.correcao||''),macete:String(e.macete||''),
+  prioridade:PRI[e.prioridade]?e.prioridade:'alta',
+  origem:ORI[e.origem]?e.origem:null, // antigos sem origem => Não classificado
+  referencia:String(e.referencia||''),data:isNaN(new Date(e.data))?nowISO():e.data,
+  atualizado:e.atualizado||e.data||nowISO(),dataSuperado:e.dataSuperado||null,
+  historico:Array.isArray(e.historico)?e.historico:[]};
+}
+function normState(d){
+ const s={erros:[],materias:{},savedAt:d?.savedAt||null};
+ (Array.isArray(d?.erros)?d.erros:[]).forEach(e=>{const n=normErro(e);if(n)s.erros.push(n)});
+ if(d?.materias&&typeof d.materias==='object')for(const m in d.materias){const t=d.materias[m];s.materias[m]={};if(t&&typeof t==='object')for(const k in t)s.materias[m][k]=Array.isArray(t[k])?t[k].map(String):[]}
+ s.erros.forEach(e=>registerTax(s,e));
+ return s;
+}
+function findName(list,name){const n=norm(name);return list.find(x=>norm(x)===n)}
+function registerTax(s,e){
+ const mk=findName(Object.keys(s.materias),e.materia)||e.materia; e.materia=mk; s.materias[mk]=s.materias[mk]||{};
+ const tk=findName(Object.keys(s.materias[mk]),e.topico)||e.topico; e.topico=tk; s.materias[mk][tk]=s.materias[mk][tk]||[];
+ if(e.subtopico){const sk=findName(s.materias[mk][tk],e.subtopico);if(sk)e.subtopico=sk;else s.materias[mk][tk].push(e.subtopico)}
+}
+function load(){try{const r=localStorage.getItem(KEY);if(r)return normState(JSON.parse(r))}catch(e){console.error(e)}
+ return normState({materias:{'Clínica Médica':{},'Clínica Cirúrgica':{},'Pediatria':{},'Ginecologia e Obstetrícia':{},'ECG':{},'Preventiva':{}}})}
+let S=load();
+function save(){S.savedAt=nowISO();try{localStorage.setItem(KEY,JSON.stringify(S));renderSync();return true}catch(e){toast('Erro ao salvar: armazenamento cheio ou bloqueado.','err');return false}}
+function renderSync(){document.getElementById('sync').innerHTML=S.savedAt?`<b>●</b> Salvo neste aparelho às ${new Date(S.savedAt).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} · ${fmt(S.savedAt)}`:'○ Nenhum dado salvo ainda'}
+
+/* ===================== UI HELPERS ===================== */
+function toast(m,t='ok'){const d=document.createElement('div');d.className='toast';d.style.background=t==='ok'?'#22c55e':'#ef4444';d.textContent=(t==='ok'?'✅ ':'⚠️ ')+m;document.getElementById('toasts').appendChild(d);setTimeout(()=>d.remove(),3200)}
+const pBadge=p=>`<span class="badge" style="background:${PRI[p].c}22;color:${PRI[p].c}">${PRI[p].i} ${PRI[p].n}</span>`;
+const oInfo=o=>ORI[o]||NC;
+const oBadge=o=>{const x=oInfo(o);return`<span class="badge" style="background:${x.c}22;color:${x.c}">${x.i} ${x.n}</span>`};
+function modal(html){document.getElementById('modalRoot').innerHTML=`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`}
+function closeModal(){document.getElementById('modalRoot').innerHTML=''}
+function confirmBox(msg,cb){modal(`<h2>⚠️ Confirmar</h2><p style="margin-bottom:18px">${msg}</p><div class="row" style="justify-content:flex-end"><button class="btn bs" onclick="closeModal()">Cancelar</button><button class="btn bd" id="okC">Sim, excluir</button></div>`);document.getElementById('okC').onclick=()=>{closeModal();cb()}}
+function bars(items,total){if(!items.length)return empty('📊','Sem dados ainda.');const mx=total||Math.max(...items.map(i=>i.v),1);
+ return items.map(i=>`<div class="bar"><div class="lb" title="${esc(i.l)}">${esc(i.l)}</div><div class="tr">${(i.parts||[{v:i.v,c:i.c}]).map(p=>`<div class="fl" style="width:${p.v/mx*100}%;background:${p.c}"></div>`).join('')}</div><div class="n">${i.t??i.v}</div></div>`).join('')}
+function donut(parts){const tot=parts.reduce((a,p)=>a+p.v,0);if(!tot)return empty('🍩','Sem dados ainda.');let acc=0;const R=60,C=2*Math.PI*R;
+ const segs=parts.filter(p=>p.v).map(p=>{const len=p.v/tot*C;const s=`<circle r="${R}" cx="80" cy="80" fill="none" stroke="${p.c}" stroke-width="26" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-acc}" transform="rotate(-90 80 80)"/>`;acc+=len;return s}).join('');
+ return`<div class="row" style="gap:20px;justify-content:center"><svg width="160" height="160">${segs}<text x="80" y="86" text-anchor="middle" font-size="22" font-weight="800" fill="#3b0a45">${tot}</text></svg><div>${parts.map(p=>`<div style="margin:6px 0;font-size:14px"><span class="badge" style="background:${p.c}22;color:${p.c}">${p.l}</span> <b>${p.v}</b> (${Math.round(p.v/tot*100)}%)</div>`).join('')}</div></div>`}
+function lineChart(series,labels){if(!labels.length)return empty('📈','Registre erros para ver sua linha do tempo.');
+ const W=600,H=220,P=34,mx=Math.max(1,...series.flatMap(s=>s.d));const x=i=>P+(labels.length===1?(W-2*P)/2:i*(W-2*P)/(labels.length-1)),y=v=>H-P-v/mx*(H-2*P);
+ let g='';for(let k=0;k<=4;k++){const v=Math.round(mx*k/4);g+=`<line x1="${P}" x2="${W-P}" y1="${y(v)}" y2="${y(v)}" stroke="#f3e8ff"/><text x="4" y="${y(v)+4}" font-size="10" fill="#7c6a86">${v}</text>`}
+ const ls=series.map(s=>`<polyline fill="none" stroke="${s.c}" stroke-width="3" stroke-linejoin="round" points="${s.d.map((v,i)=>x(i)+','+y(v)).join(' ')}"/>`+s.d.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="${s.c}"><title>${s.l}: ${v}</title></circle>`).join('')).join('');
+ const lb=labels.map((l,i)=>(labels.length<=12||i%Math.ceil(labels.length/12)===0)?`<text x="${x(i)}" y="${H-10}" font-size="10" text-anchor="middle" fill="#7c6a86">${l}</text>`:'').join('');
+ return`<svg viewBox="0 0 ${W} ${H}" style="width:100%">${g}${ls}${lb}</svg><div class="row" style="justify-content:center">${series.map(s=>`<span class="badge" style="background:${s.c}22;color:${s.c}">● ${s.l}</span>`).join('')}</div>`}
+const empty=(i,m)=>`<div class="empty"><div>${i}</div>${m}</div>`;
+const count=(arr,fn)=>{const m={};arr.forEach(e=>{const k=fn(e);m[k]=(m[k]||0)+1});return Object.entries(m).sort((a,b)=>b[1]-a[1])};
+
+/* ===================== CARICATURA (SVG) ===================== */
+const AVATAR=`<svg viewBox="0 0 200 220" aria-label="Caricatura de Grazielly Brito">
+<path d="M40 120 Q30 40 100 30 Q170 40 160 120 L168 200 Q100 215 32 200 Z" fill="#a67c52"/>
+<path d="M45 215 Q50 170 100 165 Q150 170 155 215 Z" fill="#fff" stroke="#e9d5ff" stroke-width="2"/>
+<path d="M88 165 L100 190 L112 165" fill="none" stroke="#e9d5ff" stroke-width="2"/>
+<rect x="90" y="140" width="20" height="28" rx="8" fill="#fbd9c7"/>
+<ellipse cx="100" cy="100" rx="45" ry="52" fill="#fde3d3"/>
+<path d="M55 95 Q60 45 100 42 Q145 45 147 95 Q130 62 100 64 Q75 62 55 95Z" fill="#8f6640"/>
+<path d="M55 90 Q50 140 45 175 L60 175 Q58 130 62 100Z M145 90 Q150 140 155 175 L140 175 Q142 130 138 100Z" fill="#a67c52"/>
+<ellipse cx="82" cy="100" rx="9" ry="10" fill="#fff"/><ellipse cx="118" cy="100" rx="9" ry="10" fill="#fff"/>
+<circle cx="83" cy="101" r="6" fill="#b07d4b"/><circle cx="117" cy="101" r="6" fill="#b07d4b"/>
+<circle cx="84" cy="100" r="2.6" fill="#3b2412"/><circle cx="118" cy="100" r="2.6" fill="#3b2412"/>
+<circle cx="86" cy="98" r="1.4" fill="#fff"/><circle cx="120" cy="98" r="1.4" fill="#fff"/>
+<path d="M72 86 Q82 80 92 85 M108 85 Q118 80 128 86" stroke="#7a5532" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<path d="M98 105 Q96 116 101 118" stroke="#e8b9a0" stroke-width="2" fill="none" stroke-linecap="round"/>
+<ellipse cx="70" cy="118" rx="8" ry="5" fill="#f9a8d4" opacity=".55"/><ellipse cx="130" cy="118" rx="8" ry="5" fill="#f9a8d4" opacity=".55"/>
+<path d="M86 127 Q100 140 114 127 Q100 133 86 127Z" fill="#e11d74"/>
+</svg>`;
+
+/* ===================== ROTEAMENTO ===================== */
+let F={q:'',materia:'',topico:'',subtopico:'',prioridade:'',origem:'',de:'',ate:''};
+let editId=null;
+function go(p){location.hash=p}
+function route(){const p=(location.hash.slice(1)||'dashboard').split('?')[0];const pg=PAGES.find(x=>x[0]===p)?p:'dashboard';
+ document.getElementById('nav').innerHTML=PAGES.map(([k,i,t])=>`<a href="#${k}" class="${k===pg?'on':''}"><span>${i}</span><span class="tx">${t}</span></a>`).join('');
+ document.getElementById('pgTitle').textContent=PAGES.find(x=>x[0]===pg)[2];
+ if(pg!=='registrar')editId=null;
+ ({dashboard:vDash,registrar:vForm,erros:vErros,ciclo:vCiclo,evolucao:vEvo,materias:vMat,backup:vBackup})[pg]();
+ renderSync();window.scrollTo(0,0)}
+function rerender(){route()}
+window.addEventListener('hashchange',route);
+
+/* ===================== DASHBOARD ===================== */
+let msgIdx=null;
+function pickMsg(){if(msgIdx!==null)return MSGS[msgIdx];const last=+localStorage.getItem(MSGKEY);let i;do{i=Math.floor(Math.random()*MSGS.length)}while(i===last&&MSGS.length>1);msgIdx=i;localStorage.setItem(MSGKEY,i);return MSGS[i]}
+function stats(){const E=S.erros,t=E.length,a=E.filter(e=>e.prioridade==='alta').length,m=E.filter(e=>e.prioridade==='media').length,s=E.filter(e=>e.prioridade==='superado').length;
+ return{t,a,m,s,pct:t?Math.round(s/t*100):0,mats:new Set([...Object.keys(S.materias),...E.map(e=>e.materia)]).size}}
+function vDash(){const st=stats();const E=S.erros;
+ const ult=[...E].sort((a,b)=>new Date(b.data)-new Date(a.data)).slice(0,5);
+ const tops=count(E,e=>e.materia+' › '+e.topico).slice(0,6);
+ document.getElementById('view').innerHTML=`
+ <div class="hero"><div style="flex:1"><h1>CADERNO DE ERROS</h1><p>Uma ferramenta para transformar erros em acertos.</p><span class="nome">✨ Grazielly Brito</span>
+ <div style="margin-top:18px"><button class="btn bp big" onclick="go('registrar')">+ REGISTRAR NOVO ERRO</button></div></div>${AVATAR}</div>
+ <div class="msg"><small>💖 MENSAGEM DO DIA</small>“${esc(pickMsg())}”</div>
+ <div class="grid g6">
+  ${[['📝','Total de erros',st.t,'#8b5cf6'],['📚','Matérias',st.mats,'#ec4899'],['🔴','Prioridade alta',st.a,PRI.alta.c],['🟡','Prioridade média',st.m,PRI.media.c],['🟢','Superados',st.s,PRI.superado.c],['🏆','% superados',st.pct+'%','#0ea5e9']]
+  .map(([i,l,v,c])=>`<div class="card stat" style="border-top:4px solid ${c}"><div class="ic">${i}</div><div class="v" style="color:${c}">${v}</div><div class="l">${l}</div></div>`).join('')}
+ </div>
+ <div class="card" style="margin-top:16px"><h3>🚀 Indicador de evolução</h3><div class="prog"><div style="width:${st.pct}%"></div></div>
+ <p style="margin-top:8px;color:var(--mut);font-size:14px">${st.t?`Você já superou <b>${st.s}</b> de <b>${st.t}</b> erros registrados (${st.pct}%). ${st.pct>=70?'Excelente evolução! 🌟':st.pct>=40?'Você está no caminho certo! 💪':'Cada revisão conta. Continue! 🌱'}`:'Registre seu primeiro erro para começar a acompanhar sua evolução.'}</p></div>
+ <div class="grid g2" style="margin-top:16px">
+  <div class="card"><h3>📊 Erros por matéria</h3>${bars(count(E,e=>e.materia).map(([l,v])=>({l,v,c:'linear-gradient(90deg,#ec4899,#a78bfa)'})))}</div>
+  <div class="card"><h3>🎯 Distribuição por classificação</h3>${donut(Object.keys(PRI).map(k=>({l:PRI[k].i+' '+PRI[k].n,v:E.filter(e=>e.prioridade===k).length,c:PRI[k].c})))}</div>
+  <div class="card"><h3>🕒 Últimos erros registrados</h3>${ult.length?ult.map(e=>`<div class="item" style="cursor:pointer" onclick="details('${e.id}')"><div class="hd"><span>${esc(e.materia)} › ${esc(e.topico)}</span><span>${fmt(e.data)}</span></div><div class="ds">${esc(e.descricao.slice(0,90))}${e.descricao.length>90?'…':''}</div><div class="row">${pBadge(e.prioridade)}${oBadge(e.origem)}</div></div>`).join(''):empty('🌱','Nenhum erro registrado ainda. Que tal começar agora?')}</div>
+  <div class="card"><h3>🔥 Assuntos com mais erros</h3>${bars(tops.map(([l,v])=>({l,v,c:'#f472b6'})))}</div>
+ </div>`}
+
+/* ===================== FORMULÁRIO ===================== */
+function optCards(name,obj,val,extraTxt){return`<div class="opts">${Object.entries(obj).map(([k,o])=>`<label class="opt ${val===k?'sel':''}" style="--c:${o.c}"><input type="radio" name="${name}" value="${k}" ${val===k?'checked':''} onchange="this.closest('.opts').querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));this.parentElement.classList.add('sel')"><b>${o.i} ${o.n}</b><small>${o.d}</small></label>`).join('')}</div>`}
+function vForm(){const e=editId?S.erros.find(x=>x.id===editId):null;const v=e||{materia:'',topico:'',subtopico:'',descricao:'',correcao:'',macete:'',prioridade:'',origem:'',referencia:'',data:nowISO()};
+ const mats=Object.keys(S.materias).sort();
+ document.getElementById('view').innerHTML=`<div class="card" style="max-width:900px;margin:auto">
+ <h2 style="margin-bottom:6px">${e?'✏️ Editar erro':'➕ Registrar novo erro'}</h2><p style="color:var(--mut);margin-bottom:18px;font-size:14px">Data do registro: <b>${fmt(v.data)}</b> · Campos com <span class="req">*</span> são obrigatórios.</p>
+ <form id="fm" novalidate>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+   <div class="f"><label>1. Matéria <span class="req">*</span></label><input name="materia" list="dlM" value="${esc(v.materia)}" placeholder="Escolha ou digite uma nova" oninput="updTopicList()"><datalist id="dlM">${mats.map(m=>`<option value="${esc(m)}">`).join('')}</datalist></div>
+   <div class="f"><label>2. Tópico <span class="req">*</span></label><input name="topico" list="dlT" value="${esc(v.topico)}" placeholder="Ex.: Cardiologia" oninput="updSubList()"><datalist id="dlT"></datalist></div>
+   <div class="f"><label>Subtópico (opcional)</label><input name="subtopico" list="dlS" value="${esc(v.subtopico)}" placeholder="Ex.: Hipertensão arterial"><datalist id="dlS"></datalist></div>
+  </div>
+  <div class="f"><label>3. Descrição do erro <span class="req">*</span></label><textarea name="descricao" placeholder="O que eu errei?">${esc(v.descricao)}</textarea></div>
+  <div class="f"><label>4. Correção / entendimento correto <span class="req">*</span></label><textarea name="correcao" placeholder="Qual é o conceito correto?">${esc(v.correcao)}</textarea></div>
+  <div class="f"><label>5. Como evitar esse erro novamente? (macete ou alerta)</label><textarea name="macete" placeholder="💡 Macete, mnemônico ou alerta">${esc(v.macete)}</textarea></div>
+  <div class="f"><label>6. Classificação de prioridade <span class="req">*</span></label>${optCards('prioridade',PRI,v.prioridade)}</div>
+  <div class="f"><label>Qual foi a origem do meu erro? <span class="req">*</span></label>${optCards('origem',ORI,v.origem)}</div>
+  <div class="f"><label>7. Questão de referência (opcional)</label><input name="referencia" value="${esc(v.referencia)}" placeholder="Nº da questão, banca ou link"></div>
+  <div class="row" style="justify-content:flex-end;margin-top:8px">${e?`<button type="button" class="btn bs" onclick="go('erros')">Cancelar</button>`:''}<button class="btn bp big" type="submit">💾 SALVAR ERRO</button></div>
+ </form></div>`;
+ updTopicList();updSubList();
+ document.getElementById('fm').onsubmit=ev=>{ev.preventDefault();saveForm(e)}}
+function updTopicList(){const f=document.getElementById('fm');if(!f)return;const mk=findName(Object.keys(S.materias),f.materia.value);document.getElementById('dlT').innerHTML=mk?Object.keys(S.materias[mk]).map(t=>`<option value="${esc(t)}">`).join(''):'';updSubList()}
+function updSubList(){const f=document.getElementById('fm');if(!f)return;const mk=findName(Object.keys(S.materias),f.materia.value);const tk=mk&&findName(Object.keys(S.materias[mk]),f.topico.value);document.getElementById('dlS').innerHTML=tk?S.materias[mk][tk].map(s=>`<option value="${esc(s)}">`).join(''):''}
+function saveForm(old){const f=document.getElementById('fm'),fd=new FormData(f);const g=k=>String(fd.get(k)||'').trim();
+ const miss=[];if(!g('materia'))miss.push('Matéria');if(!g('topico'))miss.push('Tópico');if(!g('descricao'))miss.push('Descrição');if(!g('correcao'))miss.push('Correção');if(!g('prioridade'))miss.push('Prioridade');if(!g('origem'))miss.push('Origem do erro');
+ if(miss.length){toast('Preencha: '+miss.join(', '),'err');return}
+ const data={materia:g('materia'),topico:g('topico'),subtopico:g('subtopico'),descricao:g('descricao'),correcao:g('correcao'),macete:g('macete'),prioridade:g('prioridade'),origem:g('origem'),referencia:g('referencia')};
+ if(old){const h=[];['prioridade','origem'].forEach(k=>{if(old[k]!==data[k])h.push({data:nowISO(),campo:k,de:old[k],para:data[k]})});
+  if(old.prioridade!=='superado'&&data.prioridade==='superado')old.dataSuperado=nowISO();if(data.prioridade!=='superado')old.dataSuperado=null;
+  Object.assign(old,data,{atualizado:nowISO()});old.historico.push(...h);registerTax(S,old)}
+ else{const e={id:uid(),...data,data:nowISO(),atualizado:nowISO(),dataSuperado:data.prioridade==='superado'?nowISO():null,historico:[{data:nowISO(),campo:'criado',de:null,para:data.prioridade}]};registerTax(S,e);S.erros.push(e)}
+ if(save()){toast(old?'Erro atualizado com sucesso!':'Erro registrado! Mais um passo rumo à aprovação 💪');editId=null;go(old?'erros':'dashboard')}}
+function editErro(id){closeModal();editId=id;if(location.hash==='#registrar')route();else{location.hash='registrar'}}
+
+/* ===================== AÇÕES RÁPIDAS ===================== */
+function setPri(id,p){const e=S.erros.find(x=>x.id===id);if(!e||e.prioridade===p)return;e.historico.push({data:nowISO(),campo:'prioridade',de:e.prioridade,para:p});
+ e.dataSuperado=p==='superado'?nowISO():null;e.prioridade=p;e.atualizado=nowISO();if(save())toast(p==='superado'?'Erro superado! 🎉 Histórico preservado.':'Prioridade alterada para '+PRI[p].n+'.')}
+function setOri(id,o){const e=S.erros.find(x=>x.id===id);if(!e)return;const nv=ORI[o]?o:null;if(e.origem===nv)return;e.historico.push({data:nowISO(),campo:'origem',de:e.origem,para:nv});e.origem=nv;e.atualizado=nowISO();if(save())toast('Origem atualizada para '+oInfo(nv).n+'.')}
+function delErro(id){confirmBox('Tem certeza que deseja excluir este erro? Esta ação não pode ser desfeita.',()=>{S.erros=S.erros.filter(x=>x.id!==id);if(save()){toast('Registro excluído.');rerender()}})}
+function details(id){const e=S.erros.find(x=>x.id===id);if(!e)return;const nm=(c,v)=>c==='prioridade'||c==='criado'?(PRI[v]?.n||'—'):oInfo(v).n;
+ modal(`<h2>🔎 Detalhes do erro</h2><div class="row" style="margin-bottom:12px">${pBadge(e.prioridade)}${oBadge(e.origem)}<span class="badge" style="background:#f3e8ff">📅 ${fmt(e.data)}</span></div>
+ <div class="blk"><b>MATÉRIA › TÓPICO${e.subtopico?' › SUBTÓPICO':''}</b>${esc(e.materia)} › ${esc(e.topico)}${e.subtopico?' › '+esc(e.subtopico):''}</div>
+ <div class="blk"><b>DESCRIÇÃO DO ERRO</b>${esc(e.descricao)}</div><div class="blk"><b>CORREÇÃO</b>${esc(e.correcao)}</div>
+ ${e.macete?`<div class="blk"><b>💡 COMO EVITAR</b>${esc(e.macete)}</div>`:''}${e.referencia?`<div class="blk"><b>QUESTÃO DE REFERÊNCIA</b>${/^https?:\/\//.test(e.referencia)?`<a href="${esc(e.referencia)}" target="_blank" rel="noopener">${esc(e.referencia)}</a>`:esc(e.referencia)}</div>`:''}
+ ${e.historico.length?`<div class="blk"><b>HISTÓRICO DE ALTERAÇÕES</b>${e.historico.map(h=>`${fmt(h.data)} — ${h.campo==='criado'?'Registrado como '+nm('criado',h.para):(h.campo==='prioridade'?'Prioridade':'Origem')+': '+nm(h.campo,h.de)+' → '+nm(h.campo,h.para)}`).join('\n')}</div>`:''}
+ <div class="row" style="justify-content:flex-end"><button class="btn bs" onclick="closeModal()">Fechar</button><button class="btn bp" onclick="editErro('${e.id}')">✏️ Editar</button></div>`)}
+function itemCard(e,review){return`<div class="item"><div class="hd"><span>📚 <b>${esc(e.materia)}</b> › ${esc(e.topico)}${e.subtopico?' › '+esc(e.subtopico):''}</span><span>📅 ${fmt(e.data)}</span></div>
+ <div class="ds">${esc(e.descricao.slice(0,140))}${e.descricao.length>140?'…':''}</div>
+ <div class="row" style="margin-bottom:10px">${pBadge(e.prioridade)}${oBadge(e.origem)}</div>
+ <div class="row">
+  <select class="qs" title="Alterar prioridade" onchange="setPri('${e.id}',this.value);rerender()">${Object.keys(PRI).map(k=>`<option value="${k}" ${k===e.prioridade?'selected':''}>${PRI[k].i} ${PRI[k].n}</option>`).join('')}</select>
+  <select class="qs" title="Alterar origem" onchange="setOri('${e.id}',this.value);rerender()">${!e.origem?`<option value="" selected>⚪ Não classificado</option>`:''}${Object.keys(ORI).map(k=>`<option value="${k}" ${k===e.origem?'selected':''}>${ORI[k].i} ${ORI[k].n}</option>`).join('')}</select>
+  ${review?`<button class="btn bp sm" onclick="review('${e.id}')">🔁 REVISAR ERRO</button>`:''}
+  <button class="btn bs sm" onclick="details('${e.id}')">👁️ Detalhes</button><button class="btn bs sm" onclick="editErro('${e.id}')">✏️ Editar</button><button class="btn bd sm" onclick="delErro('${e.id}')">🗑️ Excluir</button>
+ </div></div>`}
+
+/* ===================== MEUS ERROS ===================== */
+function applyF(){const q=norm(F.q);return S.erros.filter(e=>(!F.materia||e.materia===F.materia)&&(!F.topico||e.topico===F.topico)&&(!F.subtopico||e.subtopico===F.subtopico)&&(!F.prioridade||e.prioridade===F.prioridade)&&(!F.origem||(F.origem==='nc'?!e.origem:e.origem===F.origem))
+ &&(!F.de||e.data.slice(0,10)>=F.de)&&(!F.ate||e.data.slice(0,10)<=F.ate)&&(!q||norm(e.descricao+' '+e.correcao+' '+e.macete+' '+e.topico+' '+e.subtopico).includes(q))).sort((a,b)=>new Date(b.data)-new Date(a.data))}
+function setF(k,v){F[k]=v;if(k==='materia'){F.topico='';F.subtopico=''}if(k==='topico')F.subtopico='';vErros()}
+function treePick(m,t,s){F.materia=m;F.topico=t;F.subtopico=s;vErros()}
+function vErros(){const tree={};S.erros.forEach(e=>{tree[e.materia]=tree[e.materia]||{};tree[e.materia][e.topico]=tree[e.materia][e.topico]||{};const s=e.subtopico||'';tree[e.materia][e.topico][s]=(tree[e.materia][e.topico][s]||0)+1});
+ const cnt=o=>typeof o==='number'?o:Object.values(o).reduce((a,x)=>a+cnt(x),0);
+ const r=applyF();const mats=Object.keys(tree).sort(),tops=F.materia&&tree[F.materia]?Object.keys(tree[F.materia]).sort():[],subs=F.topico&&tree[F.materia]?.[F.topico]?Object.keys(tree[F.materia][F.topico]).filter(Boolean).sort():[];
+ const sel=(k,opts,ph)=>`<select onchange="setF('${k}',this.value)"><option value="">${ph}</option>${opts.map(([v,l])=>`<option value="${esc(v)}" ${F[k]===v?'selected':''}>${esc(l)}</option>`).join('')}</select>`;
+ document.getElementById('view').innerHTML=`<div class="layout2">
+ <div class="card tree"><h3>🗂️ Por matéria</h3><div class="${!F.materia?'on':''}" onclick="treePick('','','')"><span>📋 Todos</span><b>${S.erros.length}</b></div>
+ ${mats.map(m=>`<div class="m ${F.materia===m&&!F.topico?'on':''}" onclick="treePick('${esc(m).replace(/'/g,"\\'")}','','')"><span>📘 ${esc(m)}</span><b>${cnt(tree[m])}</b></div>`+Object.keys(tree[m]).sort().map(t=>`<div class="t ${F.materia===m&&F.topico===t&&!F.subtopico?'on':''}" onclick="treePick(${JSON.stringify(m).replace(/"/g,'&quot;')},${JSON.stringify(t).replace(/"/g,'&quot;')},'')"><span>📂 ${esc(t)}</span><b>${cnt(tree[m][t])}</b></div>`+Object.keys(tree[m][t]).filter(Boolean).sort().map(s=>`<div class="s ${F.subtopico===s&&F.topico===t&&F.materia===m?'on':''}" onclick="treePick(${JSON.stringify(m).replace(/"/g,'&quot;')},${JSON.stringify(t).replace(/"/g,'&quot;')},${JSON.stringify(s).replace(/"/g,'&quot;')})"><span>• ${esc(s)}</span><b>${tree[m][t][s]}</b></div>`).join('')).join('')).join('')||empty('🗂️','Sem registros.')}
+ </div>
+ <div><div class="card" style="margin-bottom:14px"><input id="qq" placeholder="🔍 Buscar palavras nas descrições e correções..." value="${esc(F.q)}" style="margin-bottom:10px">
+ <div class="filters">${sel('materia',mats.map(m=>[m,m]),'Todas as matérias')}${sel('topico',tops.map(t=>[t,t]),'Todos os tópicos')}${sel('subtopico',subs.map(s=>[s,s]),'Todos os subtópicos')}
+ ${sel('prioridade',Object.keys(PRI).map(k=>[k,PRI[k].i+' '+PRI[k].n]),'Todas as classificações')}${sel('origem',[...Object.keys(ORI).map(k=>[k,ORI[k].i+' '+ORI[k].n]),['nc','⚪ Não classificado']],'Todas as origens')}
+ <div><input type="date" value="${F.de}" onchange="setF('de',this.value)" title="Cadastrado a partir de"></div><div><input type="date" value="${F.ate}" onchange="setF('ate',this.value)" title="Cadastrado até"></div></div>
+ <div class="row" style="justify-content:space-between"><span style="color:var(--mut);font-size:14px"><b>${r.length}</b> registro(s) encontrado(s)</span><button class="btn bs sm" onclick="F={q:'',materia:'',topico:'',subtopico:'',prioridade:'',origem:'',de:'',ate:''};vErros()">🧹 Limpar filtros</button></div></div>
+ <div id="lst">${r.length?r.map(e=>itemCard(e)).join(''):empty(S.erros.length?'🔍':'🌱',S.erros.length?'Nenhum erro corresponde aos filtros.':'Você ainda não registrou erros. <br><br><button class="btn bp" onclick="go(\'registrar\')">+ REGISTRAR NOVO ERRO</button>')}</div></div></div>`;
+ const qq=document.getElementById('qq');qq.oninput=()=>{F.q=qq.value;const r2=applyF();document.getElementById('lst').innerHTML=r2.length?r2.map(e=>itemCard(e)).join(''):empty('🔍','Nenhum erro corresponde à busca.')}}
+
+/* ===================== SEGUNDO CICLO ===================== */
+function vCiclo(){const ns=S.erros.filter(e=>e.prioridade!=='superado');const A=ns.filter(e=>e.prioridade==='alta'),M=ns.filter(e=>e.prioridade==='media');
+ document.getElementById('view').innerHTML=`<h2 class="sec">🔁 Meu segundo ciclo</h2><p style="color:var(--mut);margin:-6px 0 16px">Revise o que ainda não foi superado. Tente lembrar a correção antes de revelar.</p>
+ <div class="grid g6"><div class="card stat" style="border-top:4px solid #8b5cf6"><div class="ic">📌</div><div class="v">${ns.length}</div><div class="l">Não superados</div></div>
+ <div class="card stat" style="border-top:4px solid ${PRI.alta.c}"><div class="ic">🔴</div><div class="v">${A.length}</div><div class="l">Prioridade alta</div></div>
+ <div class="card stat" style="border-top:4px solid ${PRI.media.c}"><div class="ic">🟡</div><div class="v">${M.length}</div><div class="l">Prioridade média</div></div></div>
+ <div class="grid g2" style="margin-top:16px"><div class="card"><h3>📚 Matérias com mais dificuldades</h3>${bars(count(ns,e=>e.materia).slice(0,8).map(([l,v])=>({l,v,c:'#ec4899'})))}</div>
+ <div class="card"><h3>🎯 Tópicos que precisam de atenção</h3>${bars(count(ns,e=>e.materia+' › '+e.topico).slice(0,8).map(([l,v])=>({l,v,c:'#a78bfa'})))}</div></div>
+ <h3 class="sec" style="color:${PRI.alta.c}">🔴 Prioridade alta (${A.length})</h3>${A.length?A.map(e=>itemCard(e,1)).join(''):empty('🎉','Nenhum erro em prioridade alta!')}
+ <h3 class="sec" style="color:#a16207">🟡 Prioridade média (${M.length})</h3>${M.length?M.map(e=>itemCard(e,1)).join(''):empty('✨','Nenhum erro em prioridade média.')}`}
+function review(id){const e=S.erros.find(x=>x.id===id);if(!e)return;
+ modal(`<h2>🔁 Revisar erro</h2><div class="row" style="margin-bottom:12px">${pBadge(e.prioridade)}${oBadge(e.origem)}</div>
+ <div class="blk"><b>MATÉRIA › TÓPICO</b>${esc(e.materia)} › ${esc(e.topico)}${e.subtopico?' › '+esc(e.subtopico):''}</div><div class="blk"><b>DESCRIÇÃO DO ERRO</b>${esc(e.descricao)}</div>
+ ${e.referencia?`<div class="blk"><b>QUESTÃO DE REFERÊNCIA</b>${esc(e.referencia)}</div>`:''}
+ <p style="text-align:center;color:var(--mut);margin:10px 0">🤔 Tente lembrar a correção antes de revelar…</p>
+ <div id="rv" class="hidden-c"><div class="blk"><b>CORREÇÃO</b>${esc(e.correcao)}</div>${e.macete?`<div class="blk"><b>💡 COMO EVITAR</b>${esc(e.macete)}</div>`:''}</div>
+ <div id="rvb" style="text-align:center;margin:12px 0"><button class="btn bp big" onclick="document.getElementById('rv').classList.remove('hidden-c');this.parentElement.style.display='none';document.getElementById('rva').style.display='flex'">👁️ REVELAR CORREÇÃO</button></div>
+ <div id="rva" class="row" style="display:none;justify-content:center;margin-top:12px">
+  <button class="btn bd" onclick="setPri('${e.id}','alta');closeModal();rerender()">🔴 Manter alta</button>
+  <button class="btn" style="background:#fef9c3;color:#a16207" onclick="setPri('${e.id}','media');closeModal();rerender()">🟡 Alterar para média</button>
+  <button class="btn bg" onclick="setPri('${e.id}','superado');closeModal();rerender()">🟢 Marcar como superado</button></div>`)}
+
+/* ===================== EVOLUÇÃO ===================== */
+function vEvo(){const E=S.erros,st=stats();
+ const months=[];if(E.length){const d0=new Date(Math.min(...E.map(e=>+new Date(e.data))));const d1=new Date();let d=new Date(d0.getFullYear(),d0.getMonth(),1);while(d<=d1){months.push(new Date(d));d.setMonth(d.getMonth()+1)}}
+ const end=m=>new Date(m.getFullYear(),m.getMonth()+1,1);
+ const regS=months.map(m=>E.filter(e=>new Date(e.data)<end(m)).length),supS=months.map(m=>E.filter(e=>e.dataSuperado&&new Date(e.dataSuperado)<end(m)).length);
+ const lbl=months.map(m=>String(m.getMonth()+1).padStart(2,'0')+'/'+m.getFullYear());
+ const oc=Object.keys(ORI).map(k=>({k,v:E.filter(e=>e.origem===k).length})).concat([{k:null,v:E.filter(e=>!e.origem).length}]);
+ const top=oc.filter(o=>o.k).sort((a,b)=>b.v-a.v)[0];
+ const mats=[...new Set(E.map(e=>e.materia))].map(m=>{const x=E.filter(e=>e.materia===m);return{m,t:x.length,s:x.filter(e=>e.prioridade==='superado').length,me:x.filter(e=>e.prioridade==='media').length,a:x.filter(e=>e.prioridade==='alta').length}}).sort((a,b)=>b.t-a.t);
+ document.getElementById('view').innerHTML=`<h2 class="sec">📈 Minha evolução</h2><p style="color:var(--mut);margin:-6px 0 16px">Aqui contam os erros <b>registrados no caderno</b> e a superação deles, não os erros cometidos em provas.</p>
+ <div class="grid g6">${[['📝','Registrados',st.t,'#8b5cf6'],['🟢','Superados',st.s,PRI.superado.c],['🔴','Em prioridade alta',st.a,PRI.alta.c],['🟡','Em prioridade média',st.m,PRI.media.c],['🚀','Evolução',st.pct+'%','#0ea5e9']].map(([i,l,v,c])=>`<div class="card stat" style="border-top:4px solid ${c}"><div class="ic">${i}</div><div class="v" style="color:${c}">${v}</div><div class="l">${l}</div></div>`).join('')}</div>
+ <div class="card" style="margin-top:16px"><h3>🗓️ Erros registrados x superados ao longo do tempo (acumulado)</h3>${lineChart([{l:'Registrados',c:'#a78bfa',d:regS},{l:'Superados',c:'#22c55e',d:supS}],lbl)}</div>
+ <div class="grid g2" style="margin-top:16px">
+ <div class="card"><h3>📚 Evolução por matéria</h3>${mats.length?mats.map(x=>`<div class="bar"><div class="lb" title="${esc(x.m)}">${esc(x.m)}</div><div class="tr"><div class="fl" style="width:${x.s/x.t*100}%;background:${PRI.superado.c}"></div><div class="fl" style="width:${x.me/x.t*100}%;background:${PRI.media.c}"></div><div class="fl" style="width:${x.a/x.t*100}%;background:${PRI.alta.c}"></div></div><div class="n">${Math.round(x.s/x.t*100)}%</div></div>`).join('')+'<p style="font-size:12px;color:var(--mut)">🟢 superados · 🟡 média · 🔴 alta — % = superados na matéria</p>':empty('📚','Sem dados ainda.')}</div>
+ <div class="card"><h3>🧭 Origem dos erros</h3>${donut(oc.map(o=>({l:oInfo(o.k).i+' '+oInfo(o.k).n,v:o.v,c:oInfo(o.k).c})))}</div></div>
+ <div class="card" style="margin-top:16px"><h3>🔍 Principais causas dos meus erros</h3>
+ ${top&&top.v?`<div class="blk" style="background:${ORI[top.k].c}15;border-left:4px solid ${ORI[top.k].c}"><b>ORIGEM MAIS FREQUENTE</b><span style="font-size:18px;font-weight:800;color:${ORI[top.k].c}">${ORI[top.k].i} ${ORI[top.k].n}</span> — ${top.v} erro(s), ${Math.round(top.v/E.length*100)}% do total.<br><small>${{desconhecimento:'Dica: amplie a cobertura do edital com teoria básica dos temas novos.',confusao:'Dica: faça quadros comparativos entre os conceitos que você confunde.',esquecimento:'Dica: aumente a frequência de revisões espaçadas e use flashcards.',interpretacao:'Dica: grife o comando da questão (correta/incorreta, exceto) antes de ler as alternativas.'}[top.k]}</small></div>`:''}
+ ${bars(oc.sort((a,b)=>b.v-a.v).map(o=>({l:oInfo(o.k).i+' '+oInfo(o.k).n,v:o.v,c:oInfo(o.k).c,t:`${o.v} · ${E.length?Math.round(o.v/E.length*100):0}%`})),Math.max(1,...oc.map(o=>o.v)))}</div>`}
+
+/* ===================== MATÉRIAS ===================== */
+function vMat(){const ms=Object.keys(S.materias).sort();const c=(m,t,s)=>S.erros.filter(e=>e.materia===m&&(t==null||e.topico===t)&&(s==null||e.subtopico===s)).length;
+ document.getElementById('view').innerHTML=`<h2 class="sec">🗂️ Matérias e tópicos</h2>
+ <div class="card" style="margin-bottom:16px"><h3>➕ Adicionar</h3><div class="filters"><input id="nm" placeholder="Matéria (nova ou existente)" list="dlM2"><datalist id="dlM2">${ms.map(m=>`<option value="${esc(m)}">`).join('')}</datalist><input id="nt" placeholder="Tópico (opcional)"><input id="ns" placeholder="Subtópico (opcional)"><button class="btn bp" onclick="addTax()">Adicionar</button></div></div>
+ ${ms.length?ms.map(m=>`<div class="card" style="margin-bottom:12px"><div class="row" style="justify-content:space-between"><h3 style="margin:0">📘 ${esc(m)} <span class="badge" style="background:#fce7f3;color:#be185d">${c(m)} erro(s)</span></h3>${!c(m)?`<button class="btn bd sm" data-m="${esc(m)}" onclick="delTax(this.dataset.m)">🗑️</button>`:''}</div>
+ <div style="margin-top:10px">${Object.keys(S.materias[m]).sort().map(t=>`<div style="padding:6px 0 6px 14px;border-left:3px solid #ede9fe;margin:6px 0"><b>📂 ${esc(t)}</b> <small style="color:var(--mut)">(${c(m,t)})</small> ${!c(m,t)?`<button class="btn bd sm" data-m="${esc(m)}" data-t="${esc(t)}" onclick="delTax(this.dataset.m,this.dataset.t)">×</button>`:''}
+ ${S.materias[m][t].map(s=>`<div style="padding-left:18px;font-size:14px;color:var(--mut)">• ${esc(s)} (${c(m,t,s)}) ${!c(m,t,s)?`<button class="btn bd sm" style="padding:2px 8px" data-m="${esc(m)}" data-t="${esc(t)}" data-s="${esc(s)}" onclick="delTax(this.dataset.m,this.dataset.t,this.dataset.s)">×</button>`:''}</div>`).join('')}</div>`).join('')||'<small style="color:var(--mut)">Nenhum tópico ainda.</small>'}</div></div>`).join(''):empty('🗂️','Nenhuma matéria cadastrada.')}
+ <p style="font-size:13px;color:var(--mut)">Itens com erros vinculados não podem ser excluídos, para preservar seus registros.</p>`}
+function addTax(){const m=document.getElementById('nm').value.trim(),t=document.getElementById('nt').value.trim(),s=document.getElementById('ns').value.trim();if(!m){toast('Informe a matéria.','err');return}if(s&&!t){toast('Para um subtópico, informe o tópico.','err');return}
+ const before=JSON.stringify(S.materias);const mk=findName(Object.keys(S.materias),m)||m;S.materias[mk]=S.materias[mk]||{};
+ if(t){const tk=findName(Object.keys(S.materias[mk]),t)||t;S.materias[mk][tk]=S.materias[mk][tk]||[];if(s&&!findName(S.materias[mk][tk],s))S.materias[mk][tk].push(s)}
+ if(JSON.stringify(S.materias)===before){toast('Esse item já existe.','err');return}if(save()){toast('Adicionado com sucesso!');vMat()}}
+function delTax(m,t,s){confirmBox('Excluir este item da lista?',()=>{if(s!=null)S.materias[m][t]=S.materias[m][t].filter(x=>x!==s);else if(t!=null)delete S.materias[m][t];else delete S.materias[m];if(save()){toast('Item excluído.');vMat()}})}
+
+/* ===================== BACKUP ===================== */
+function vBackup(){document.getElementById('view').innerHTML=`<h2 class="sec">⚙️ Backup e configurações</h2><div class="grid g2">
+ <div class="card"><h3>⬇️ Exportar backup</h3><p style="color:var(--mut);font-size:14px;margin-bottom:12px">Baixa um arquivo JSON com todos os erros, matérias, tópicos, classificações, origens, datas e histórico.</p><button class="btn bp" onclick="exportJSON()">Exportar JSON</button></div>
+ <div class="card"><h3>⬆️ Importar backup</h3><p style="color:var(--mut);font-size:14px;margin-bottom:12px">Escolha um arquivo JSON exportado por este app.</p><input type="file" id="fi" accept=".json,application/json" style="margin-bottom:10px">
+ <div class="row"><button class="btn bp" onclick="importJSON(false)">Mesclar com os atuais</button><button class="btn bs" onclick="importJSON(true)">Substituir tudo</button></div></div>
+ <div class="card"><h3>🔄 Usar em outro aparelho</h3><p style="color:var(--mut);font-size:14px">Os dados ficam salvos neste navegador e continuam lá depois de fechar ou desligar. Para levar os registros a outro aparelho: exporte aqui e importe lá. Para sincronizar automaticamente, é preciso ligar o app a um serviço com login (ex.: Firebase ou Supabase, que têm plano gratuito).</p></div>
+ <div class="card"><h3>🗑️ Apagar todos os dados</h3><p style="color:var(--mut);font-size:14px;margin-bottom:12px">Faça um backup antes. Esta ação não pode ser desfeita.</p><button class="btn bd" onclick="confirmBox('Apagar TODOS os erros e matérias deste aparelho?',()=>{S=normState({});save();toast('Dados apagados.');rerender()})">Apagar tudo</button></div></div>`}
+function exportJSON(){const data={app:'caderno-erros-grazielly-brito',versao:1,exportadoEm:nowISO(),erros:S.erros,materias:S.materias};
+ const b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`caderno-erros-backup-${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.json`;a.click();URL.revokeObjectURL(a.href);toast('Backup exportado!')}
+function importJSON(replace){const f=document.getElementById('fi').files[0];if(!f){toast('Selecione um arquivo.','err');return}
+ const r=new FileReader();r.onload=()=>{let d;try{d=JSON.parse(r.result)}catch{toast('Arquivo inválido: não é um JSON válido.','err');return}
+  if(!d||!Array.isArray(d.erros)){toast('Arquivo inválido: não contém a lista de erros.','err');return}
+  const inc=normState(d),skipped=d.erros.length-inc.erros.length;
+  const run=()=>{if(replace)S=inc;else{const ids=new Set(S.erros.map(e=>e.id));inc.erros.forEach(e=>{if(!ids.has(e.id)){registerTax(S,e);S.erros.push(e)}});for(const m in inc.materias)for(const t in inc.materias[m])inc.materias[m][t].forEach(s=>registerTax(S,{materia:m,topico:t,subtopico:s}));for(const m in inc.materias){const mk=findName(Object.keys(S.materias),m)||m;S.materias[mk]=S.materias[mk]||{};for(const t in inc.materias[m])registerTax(S,{materia:mk,topico:t,subtopico:''})}}
+   if(save()){toast(`Importação concluída: ${inc.erros.length} registro(s)${skipped?`, ${skipped} inválido(s) ignorado(s)`:''}.`);rerender()}};
+  if(replace)confirmBox('Substituir TODOS os dados atuais pelo backup?',run);else run()};r.readAsText(f)}
+
+/* ===================== INÍCIO ===================== */
+route();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
